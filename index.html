@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nebula Lodge & Experiences — Monteverde, Costa Rica</title>
+  <meta name="description" content="Nebula Lodge & Experiences: lujo íntimo en el corazón del bosque nuboso de Monteverde. Tours exclusivos, hospedaje premium y gastronomía costarricense de autor." />
+  <meta property="og:title" content="Nebula Lodge & Experiences" />
+  <meta property="og:description" content="Where the cloud forest meets the extraordinary. Monteverde, Costa Rica." />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=1200&q=80" />
+  <meta property="og:type" content="website" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Heroicons via unpkg -->
+  <script src="https://unpkg.com/heroicons@1.0.6/outline/index.js" defer></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --forest-deep:  #1a3a2a;
+      --forest-mid:   #2d5a3d;
+      --forest-light: #3d7a52;
+      --black:        #0a0a0a;
+      --black-soft:   #111111;
+      --gold:         #c9a84c;
+      --gold-light:   #e0c06a;
+      --white:        #ffffff;
+      --glass-bg:     rgba(255,255,255,0.06);
+      --glass-border: rgba(255,255,255,0.12);
+      --glass-bg-dark:rgba(10,10,10,0.55);
+      --radius:       16px;
+      --radius-sm:    10px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--black);
+      color: var(--white);
+      overflow-x: hidden;
+    }
+
+    /* ─── SCROLLBAR ─────────────────────────────── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--black); }
+    ::-webkit-scrollbar-thumb { background: var(--forest-mid); border-radius: 3px; }
+
+    /* ─── TYPOGRAPHY ────────────────────────────── */
+    h1, h2, h3, h4 { font-family: 'Playfair Display', serif; line-height: 1.2; }
+
+    /* ─── UTILITY ───────────────────────────────── */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .gold { color: var(--gold); }
+    .section-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .section-subtitle {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.7;
+      max-width: 560px;
+    }
+
+    /* ─── GLASS CARD ────────────────────────────── */
+    .glass {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius);
+    }
+    .glass-dark {
+      background: var(--glass-bg-dark);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius);
+    }
+
+    /* ─── BUTTON ────────────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 30px;
+      border-radius: 50px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: all 0.3s ease;
+    }
+    .btn-gold {
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: var(--black);
+    }
+    .btn-gold:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(201,168,76,0.4);
+    }
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid var(--gold);
+      color: var(--gold);
+    }
+    .btn-outline:hover {
+      background: var(--gold);
+      color: var(--black);
+      transform: translateY(-2px);
+    }
+    .btn svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+    /* ─── FADE-IN ANIMATION ─────────────────────── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .fade-in-delay-1 { transition-delay: 0.1s; }
+    .fade-in-delay-2 { transition-delay: 0.2s; }
+    .fade-in-delay-3 { transition-delay: 0.3s; }
+
+    /* ══════════════════════════════════════════════
+       NAV
+    ══════════════════════════════════════════════ */
+    #navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      padding: 20px 0;
+      transition: all 0.4s ease;
+    }
+    #navbar.scrolled {
+      padding: 12px 0;
+      background: rgba(10,10,10,0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--white);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+    }
+    .nav-logo span { color: var(--gold); }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-cta { margin-left: 12px; }
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--white);
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      background: rgba(10,10,10,0.97);
+      backdrop-filter: blur(20px);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 36px;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: var(--white);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .mobile-menu a:hover { color: var(--gold); }
+    .mobile-close {
+      position: absolute;
+      top: 24px; right: 24px;
+      background: none;
+      border: none;
+      color: var(--white);
+      cursor: pointer;
+    }
+    .mobile-close svg { width: 28px; height: 28px; }
+
+    @media (max-width: 768px) {
+      .nav-links, .nav-cta { display: none; }
+      .hamburger { display: flex; }
+    }
+
+    /* ══════════════════════════════════════════════
+       HERO
+    ══════════════════════════════════════════════ */
+    #hero {
+      position: relative;
+      height: 100vh;
+      min-height: 640px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=1800&q=85&auto=format&fit=crop');
+      background-size: cover;
+      background-position: center 40%;
+      transform: scale(1.04);
+      transition: transform 8s ease;
+    }
+    #hero.loaded .hero-bg { transform: scale(1); }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(10,10,10,0.3) 0%,
+        rgba(10,20,14,0.6) 50%,
+        rgba(10,10,10,0.85) 100%
+      );
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 0 24px;
+      max-width: 780px;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(201,168,76,0.15);
+      border: 1px solid rgba(201,168,76,0.35);
+      border-radius: 50px;
+      padding: 7px 18px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+    .hero-badge svg { width: 14px; height: 14px; }
+    .hero-title {
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-weight: 700;
+      line-height: 1.08;
+      margin-bottom: 20px;
+      text-shadow: 0 2px 30px rgba(0,0,0,0.5);
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--gold);
+    }
+    .hero-slogan {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: rgba(255,255,255,0.75);
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      margin-bottom: 44px;
+      font-style: italic;
+    }
+    .hero-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .hero-scroll {
+      position: absolute;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.5);
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      animation: bounce 2s infinite;
+    }
+    .hero-scroll svg { width: 20px; height: 20px; }
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(6px); }
+    }
+
+    /* ══════════════════════════════════════════════
+       EXPERIENCES
+    ══════════════════════════════════════════════ */
+    #experiencias {
+      padding: 120px 0;
+      background: linear-gradient(180deg, var(--black) 0%, var(--black-soft) 100%);
+    }
+    .experiences-header { text-align: center; margin-bottom: 64px; }
+    .experiences-header .section-subtitle { margin: 0 auto; }
+    .experiences-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .exp-card {
+      padding: 40px 32px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .exp-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .exp-card:hover::before { opacity: 1; }
+    .exp-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+    }
+    .exp-icon {
+      width: 52px; height: 52px;
+      background: rgba(201,168,76,0.12);
+      border: 1px solid rgba(201,168,76,0.25);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+    .exp-icon svg { width: 26px; height: 26px; color: var(--gold); stroke: var(--gold); }
+    .exp-card h3 {
+      font-size: 1.35rem;
+      margin-bottom: 12px;
+    }
+    .exp-card p {
+      color: rgba(255,255,255,0.6);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      margin-bottom: 28px;
+    }
+    .exp-price {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.85rem;
+      color: var(--gold);
+      margin-bottom: 20px;
+      font-style: italic;
+    }
+
+    @media (max-width: 900px) {
+      .experiences-grid { grid-template-columns: 1fr; max-width: 500px; margin: 0 auto; }
+    }
+
+    /* ══════════════════════════════════════════════
+       HOTEL
+    ══════════════════════════════════════════════ */
+    #hotel {
+      padding: 120px 0;
+      background: var(--black-soft);
+    }
+    .hotel-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 72px;
+      align-items: center;
+    }
+    .hotel-image-wrap {
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .hotel-image-wrap img {
+      width: 100%;
+      height: 520px;
+      object-fit: cover;
+      display: block;
+      border-radius: var(--radius);
+      transition: transform 0.6s ease;
+    }
+    .hotel-image-wrap:hover img { transform: scale(1.03); }
+    .hotel-image-wrap::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius);
+      pointer-events: none;
+    }
+    .floating-badge {
+      position: absolute;
+      bottom: 28px; left: 28px;
+      padding: 14px 20px;
+      border-radius: var(--radius-sm);
+    }
+    .floating-badge p {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.6);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .floating-badge strong {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      color: var(--gold);
+    }
+    .hotel-text { }
+    .hotel-text h2 { margin-bottom: 20px; }
+    .hotel-text > p {
+      color: rgba(255,255,255,0.65);
+      line-height: 1.8;
+      font-size: 1.05rem;
+      margin-bottom: 40px;
+    }
+    .amenities {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+    .amenity {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 18px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: var(--radius-sm);
+      font-size: 0.88rem;
+      font-weight: 500;
+    }
+    .amenity svg {
+      width: 18px; height: 18px;
+      color: var(--gold);
+      stroke: var(--gold);
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 900px) {
+      .hotel-inner { grid-template-columns: 1fr; gap: 48px; }
+      .hotel-image-wrap img { height: 360px; }
+    }
+
+    /* ══════════════════════════════════════════════
+       RESTAURANT
+    ══════════════════════════════════════════════ */
+    #restaurante {
+      padding: 120px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .restaurant-bg-wrap {
+      position: relative;
+      border-radius: 24px;
+      overflow: hidden;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .restaurant-bg-wrap img {
+      width: 100%;
+      height: 580px;
+      object-fit: cover;
+      object-position: center 60%;
+      display: block;
+    }
+    .restaurant-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        90deg,
+        rgba(10,10,10,0.88) 0%,
+        rgba(10,10,10,0.55) 55%,
+        rgba(10,10,10,0.15) 100%
+      );
+    }
+    .restaurant-content {
+      position: absolute;
+      top: 50%;
+      left: 56px;
+      transform: translateY(-50%);
+      max-width: 460px;
+    }
+    .restaurant-content h2 { margin-bottom: 18px; }
+    .restaurant-content p {
+      color: rgba(255,255,255,0.7);
+      line-height: 1.8;
+      font-size: 1.02rem;
+      margin-bottom: 32px;
+    }
+    .rest-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 36px;
+    }
+    .rest-tag {
+      padding: 6px 16px;
+      background: rgba(201,168,76,0.12);
+      border: 1px solid rgba(201,168,76,0.3);
+      border-radius: 50px;
+      font-size: 0.8rem;
+      color: var(--gold);
+      font-weight: 500;
+    }
+
+    @media (max-width: 768px) {
+      .restaurant-bg-wrap img { height: 600px; object-position: 70% center; }
+      .restaurant-overlay {
+        background: linear-gradient(180deg, rgba(10,10,10,0.85) 0%, rgba(10,10,10,0.6) 100%);
+      }
+      .restaurant-content {
+        position: relative;
+        top: auto; left: auto;
+        transform: none;
+        padding: 40px 28px;
+        max-width: 100%;
+      }
+      .restaurant-bg-wrap { border-radius: 16px; }
+    }
+
+    /* ══════════════════════════════════════════════
+       WHY US
+    ══════════════════════════════════════════════ */
+    #por-que {
+      padding: 120px 0;
+      background: linear-gradient(180deg, var(--black-soft) 0%, var(--forest-deep) 100%);
+    }
+    .why-header { text-align: center; margin-bottom: 72px; }
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+    .why-card {
+      text-align: center;
+      padding: 44px 28px;
+    }
+    .why-icon {
+      width: 64px; height: 64px;
+      background: rgba(201,168,76,0.1);
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+    }
+    .why-icon svg { width: 28px; height: 28px; color: var(--gold); stroke: var(--gold); }
+    .why-card h3 { font-size: 1.15rem; margin-bottom: 12px; }
+    .why-card p { color: rgba(255,255,255,0.55); font-size: 0.9rem; line-height: 1.7; }
+
+    @media (max-width: 900px) { .why-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 500px) { .why-grid { grid-template-columns: 1fr; max-width: 380px; margin: 0 auto; } }
+
+    /* ══════════════════════════════════════════════
+       GALLERY
+    ══════════════════════════════════════════════ */
+    #galeria {
+      padding: 120px 0;
+      background: var(--black);
+    }
+    .gallery-header { text-align: center; margin-bottom: 56px; }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, 280px);
+      gap: 16px;
+    }
+    .gallery-item {
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+    }
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+    .gallery-item:hover img { transform: scale(1.07); }
+    .gallery-item-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(10,20,14,0.0);
+      transition: background 0.3s;
+      display: flex;
+      align-items: flex-end;
+      padding: 20px;
+    }
+    .gallery-item:hover .gallery-item-overlay {
+      background: rgba(10,20,14,0.45);
+    }
+    .gallery-caption {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.9);
+      opacity: 0;
+      transform: translateY(8px);
+      transition: all 0.3s;
+    }
+    .gallery-item:hover .gallery-caption { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 768px) {
+      .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(3, 220px);
+      }
+    }
+    @media (max-width: 480px) {
+      .gallery-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+      }
+      .gallery-item { height: 220px; }
+    }
+
+    /* ══════════════════════════════════════════════
+       TESTIMONIALS
+    ══════════════════════════════════════════════ */
+    #testimonios {
+      padding: 120px 0;
+      background: linear-gradient(180deg, var(--black) 0%, var(--black-soft) 100%);
+    }
+    .testimonials-header { text-align: center; margin-bottom: 64px; }
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 28px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    .testimonial-card { padding: 44px; }
+    .stars {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 24px;
+    }
+    .star {
+      width: 16px; height: 16px;
+      background: var(--gold);
+      clip-path: polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);
+    }
+    .testimonial-text {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.1rem;
+      line-height: 1.75;
+      color: rgba(255,255,255,0.85);
+      margin-bottom: 32px;
+    }
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .author-avatar {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(201,168,76,0.3);
+    }
+    .author-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+    .author-origin {
+      font-size: 0.82rem;
+      color: var(--gold);
+      margin-top: 2px;
+    }
+    .quote-mark {
+      font-family: 'Playfair Display', serif;
+      font-size: 5rem;
+      line-height: 0.6;
+      color: rgba(201,168,76,0.15);
+      display: block;
+      margin-bottom: 12px;
+    }
+
+    @media (max-width: 700px) {
+      .testimonials-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ══════════════════════════════════════════════
+       FOOTER / CTA
+    ══════════════════════════════════════════════ */
+    #reserva {
+      padding: 100px 0 60px;
+      background: var(--black-soft);
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr;
+      gap: 60px;
+      padding-bottom: 60px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      margin-bottom: 48px;
+    }
+    .footer-brand .nav-logo { font-size: 1.7rem; display: inline-block; margin-bottom: 16px; }
+    .footer-brand p {
+      color: rgba(255,255,255,0.5);
+      font-size: 0.9rem;
+      line-height: 1.75;
+      margin-bottom: 28px;
+      max-width: 320px;
+    }
+    .footer-col h4 {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 24px;
+    }
+    .footer-contact-list { list-style: none; display: flex; flex-direction: column; gap: 16px; }
+    .footer-contact-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.5;
+    }
+    .footer-contact-list li svg {
+      width: 17px; height: 17px;
+      color: var(--gold);
+      stroke: var(--gold);
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .footer-contact-list a {
+      color: rgba(255,255,255,0.65);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-contact-list a:hover { color: var(--gold); }
+    .footer-cta-box {
+      background: linear-gradient(135deg, rgba(201,168,76,0.08), rgba(45,90,61,0.15));
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      margin-top: 0;
+    }
+    .footer-cta-box h3 {
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+    }
+    .footer-cta-box p {
+      color: rgba(255,255,255,0.55);
+      font-size: 0.88rem;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .footer-copy {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.3);
+    }
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+    .footer-links a {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.3);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--gold); }
+
+    @media (max-width: 900px) {
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      .footer-brand { grid-column: 1 / -1; }
+    }
+    @media (max-width: 560px) {
+      .footer-top { grid-template-columns: 1fr; }
+    }
+
+    /* ══════════════════════════════════════════════
+       SECTION DIVIDER
+    ══════════════════════════════════════════════ */
+    .divider {
+      width: 48px; height: 2px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light));
+      border-radius: 2px;
+      margin: 20px 0 32px;
+    }
+    .divider-center { margin: 20px auto 32px; }
+  </style>
+</head>
+
+<body>
+
+<!-- ══ MOBILE MENU ══════════════════════════════════════ -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose" aria-label="Cerrar menú">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/>
+    </svg>
+  </button>
+  <a href="#experiencias" class="mobile-link">Experiencias</a>
+  <a href="#hotel" class="mobile-link">El Lodge</a>
+  <a href="#restaurante" class="mobile-link">Restaurante</a>
+  <a href="#galeria" class="mobile-link">Galería</a>
+  <a href="#reserva" class="btn btn-gold mobile-link">Reservar</a>
+</div>
+
+<!-- ══ NAV ══════════════════════════════════════════════ -->
+<nav id="navbar">
+  <div class="container nav-inner">
+    <a href="#" class="nav-logo">Nebula<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="#experiencias">Experiencias</a></li>
+      <li><a href="#hotel">El Lodge</a></li>
+      <li><a href="#restaurante">Restaurante</a></li>
+      <li><a href="#galeria">Galería</a></li>
+    </ul>
+    <a href="#reserva" class="btn btn-gold nav-cta" style="padding:11px 22px;font-size:0.82rem;">
+      Reservar
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="Abrir menú">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ══ HERO ═════════════════════════════════════════════ -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-badge fade-in">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+      </svg>
+      Monteverde, Costa Rica
+    </div>
+    <h1 class="hero-title fade-in fade-in-delay-1">Nebula Lodge<br />&amp; <em>Experiences</em></h1>
+    <p class="hero-slogan fade-in fade-in-delay-2">Where the cloud forest meets the extraordinary</p>
+    <div class="hero-actions fade-in fade-in-delay-3">
+      <a href="#reserva" class="btn btn-gold">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+        </svg>
+        Reserva tu experiencia
+      </a>
+      <a href="#experiencias" class="btn btn-outline">
+        Explorar
+      </a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Descubrir</span>
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 9l-7 7-7-7"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ══ EXPERIENCES ══════════════════════════════════════ -->
+<section id="experiencias">
+  <div class="container">
+    <div class="experiences-header fade-in">
+      <p class="section-label">Nuestras Experiencias</p>
+      <h2 class="section-title">Aventuras que dejan huella</h2>
+      <div class="divider divider-center"></div>
+      <p class="section-subtitle">Cada experiencia está diseñada para conectarte profundamente con la magia del bosque nuboso y la biodiversidad extraordinaria de Monteverde.</p>
+    </div>
+    <div class="experiences-grid">
+
+      <!-- Card 1 -->
+      <div class="glass exp-card fade-in fade-in-delay-1">
+        <div class="exp-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+          </svg>
+        </div>
+        <h3>Tour Nocturno por el Bosque Nuboso</h3>
+        <p>Adéntrate en el bosque cuando la oscuridad revela sus secretos. Descubre ranas venenosas, insectos luminosos y la vida salvaje que solo emerge bajo las estrellas.</p>
+        <p class="exp-price">Desde $95 USD por persona · Grupos máx. 6</p>
+        <a href="#reserva" class="btn btn-outline">Reservar</a>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="glass exp-card fade-in fade-in-delay-2">
+        <div class="exp-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+          </svg>
+        </div>
+        <h3>Canopy y Tirolesas Privadas</h3>
+        <p>Vuela sobre el dosel del bosque nuboso con acceso privado exclusivo para huéspedes del lodge. Adrenalina y naturaleza en su expresión más pura a 1,500 metros de altitud.</p>
+        <p class="exp-price">Desde $120 USD por persona · Privado</p>
+        <a href="#reserva" class="btn btn-outline">Reservar</a>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="glass exp-card fade-in fade-in-delay-3">
+        <div class="exp-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/>
+          </svg>
+        </div>
+        <h3>Observación de Aves al Amanecer</h3>
+        <p>Guiado por un ornitólogo certificado, observa el quetzal resplendeciente y más de 400 especies de aves que habitan este santuario natural mientras el sol tiñe las nubes de dorado.</p>
+        <p class="exp-price">Desde $75 USD por persona · Máx. 4</p>
+        <a href="#reserva" class="btn btn-outline">Reservar</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ HOTEL ════════════════════════════════════════════ -->
+<section id="hotel">
+  <div class="container">
+    <div class="hotel-inner">
+      <div class="hotel-image-wrap fade-in">
+        <img
+          src="https://images.unsplash.com/photo-1586375300773-8384e3e4916f?w=900&q=85&auto=format&fit=crop"
+          alt="Suite del Nebula Lodge con vista al bosque nuboso"
+          loading="lazy"
+        />
+        <div class="floating-badge glass-dark">
+          <p>Capacidad exclusiva</p>
+          <strong>Solo 12 huéspedes</strong>
+        </div>
+      </div>
+      <div class="hotel-text fade-in fade-in-delay-1">
+        <p class="section-label">El Lodge</p>
+        <h2 class="section-title">Un refugio entre las nubes</h2>
+        <div class="divider"></div>
+        <p>Seis suites diseñadas para fundirse con el entorno natural de Monteverde: maderas locales, texturas orgánicas y ventanales panorámicos que enmarcan el bosque nuboso como si fuera una pintura viva. Aquí el lujo no es ostentoso — es silencio, naturaleza intacta y la calidez del fuego al caer la noche.</p>
+        <div class="amenities">
+          <div class="amenity">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"/>
+            </svg>
+            WiFi de alta velocidad
+          </div>
+          <div class="amenity">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+            </svg>
+            Desayuno incluido
+          </div>
+          <div class="amenity">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
+            </svg>
+            Vista al bosque
+          </div>
+          <div class="amenity">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+            </svg>
+            Spa &amp; bienestar
+          </div>
+          <div class="amenity">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+            </svg>
+            Traslados privados
+          </div>
+          <div class="amenity">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+            </svg>
+            Seguridad 24/7
+          </div>
+        </div>
+        <a href="#reserva" class="btn btn-gold">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+          </svg>
+          Consultar disponibilidad
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ RESTAURANT ═══════════════════════════════════════ -->
+<section id="restaurante">
+  <div class="container">
+    <div class="restaurant-bg-wrap fade-in">
+      <img
+        src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1400&q=85&auto=format&fit=crop"
+        alt="Restaurante Nebula — cocina costarricense de autor con vista al bosque"
+        loading="lazy"
+      />
+      <div class="restaurant-overlay"></div>
+      <div class="restaurant-content">
+        <p class="section-label">Restaurante Nebula</p>
+        <h2 class="section-title">La cocina del bosque</h2>
+        <div class="divider"></div>
+        <p>Ingredientes cultivados a metros de tu mesa. Nuestro chef ejecutivo interpreta la cocina costarricense desde una perspectiva contemporánea, integrando hierbas silvestres, palmito fresco y cacao local en cada plato. Una experiencia gastronómica donde la naturaleza dicta el menú.</p>
+        <div class="rest-tags">
+          <span class="rest-tag">Cocina de autor</span>
+          <span class="rest-tag">Ingredientes locales</span>
+          <span class="rest-tag">Menú de temporada</span>
+          <span class="rest-tag">Vista al bosque</span>
+          <span class="rest-tag">Maridaje con vinos</span>
+        </div>
+        <a href="#reserva" class="btn btn-gold">Reservar mesa</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ WHY US ════════════════════════════════════════════ -->
+<section id="por-que">
+  <div class="container">
+    <div class="why-header fade-in">
+      <p class="section-label">¿Por qué elegirnos?</p>
+      <h2 class="section-title">Lo que nos hace únicos</h2>
+      <div class="divider divider-center"></div>
+    </div>
+    <div class="why-grid">
+
+      <div class="glass why-card fade-in fade-in-delay-1">
+        <div class="why-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
+          </svg>
+        </div>
+        <h3>Experiencias exclusivas y privadas</h3>
+        <p>Cada tour, actividad y experiencia está diseñada solo para los huéspedes del lodge, garantizando privacidad total y atención personalizada.</p>
+      </div>
+
+      <div class="glass why-card fade-in fade-in-delay-2">
+        <div class="why-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/>
+          </svg>
+        </div>
+        <h3>Guías certificados bilingües</h3>
+        <p>Nuestros guías son naturalistas certificados con formación en biología tropical, fluidos en español e inglés, apasionados por compartir el bosque.</p>
+      </div>
+
+      <div class="glass why-card fade-in fade-in-delay-3">
+        <div class="why-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+        </div>
+        <h3>Sostenibilidad certificada</h3>
+        <p>Certificación CST (Costa Rica Sostenible) nivel 5. Energía solar, compostaje activo, programas de reforestación y conservación del bosque en alianza con la comunidad.</p>
+      </div>
+
+      <div class="glass why-card fade-in fade-in-delay-1">
+        <div class="why-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
+        </div>
+        <h3>Solo 12 huéspedes a la vez</h3>
+        <p>El límite deliberado de capacidad garantiza que cada huésped viva el bosque sin aglomeraciones, con servicio de relación 1:1 y experiencias que no se repiten igual nunca.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ GALLERY ═══════════════════════════════════════════ -->
+<section id="galeria">
+  <div class="container">
+    <div class="gallery-header fade-in">
+      <p class="section-label">Galería</p>
+      <h2 class="section-title">El mundo que te espera</h2>
+      <div class="divider divider-center"></div>
+    </div>
+    <div class="gallery-grid">
+      <div class="gallery-item fade-in">
+        <img src="https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=700&q=80&auto=format&fit=crop" alt="Bosque nuboso de Monteverde al amanecer" loading="lazy" />
+        <div class="gallery-item-overlay"><span class="gallery-caption">Bosque nuboso al amanecer</span></div>
+      </div>
+      <div class="gallery-item fade-in fade-in-delay-1">
+        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=700&q=80&auto=format&fit=crop" alt="Quetzal resplendeciente en Monteverde" loading="lazy" />
+        <div class="gallery-item-overlay"><span class="gallery-caption">Quetzal resplendeciente</span></div>
+      </div>
+      <div class="gallery-item fade-in fade-in-delay-2">
+        <img src="https://images.unsplash.com/photo-1586375300773-8384e3e4916f?w=700&q=80&auto=format&fit=crop" alt="Suite de lujo con vista al bosque" loading="lazy" />
+        <div class="gallery-item-overlay"><span class="gallery-caption">Suite Nebula Panorámica</span></div>
+      </div>
+      <div class="gallery-item fade-in fade-in-delay-1">
+        <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=700&q=80&auto=format&fit=crop" alt="Restaurante Nebula, cocina de autor" loading="lazy" />
+        <div class="gallery-item-overlay"><span class="gallery-caption">Restaurante Nebula</span></div>
+      </div>
+      <div class="gallery-item fade-in fade-in-delay-2">
+        <img src="https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?w=700&q=80&auto=format&fit=crop" alt="Canopy sobre el bosque nuboso" loading="lazy" />
+        <div class="gallery-item-overlay"><span class="gallery-caption">Canopy exclusivo</span></div>
+      </div>
+      <div class="gallery-item fade-in fade-in-delay-3">
+        <img src="https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=700&q=80&auto=format&fit=crop" alt="Atardecer en Monteverde, Costa Rica" loading="lazy" />
+        <div class="gallery-item-overlay"><span class="gallery-caption">Atardecer en Monteverde</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ TESTIMONIALS ══════════════════════════════════════ -->
+<section id="testimonios">
+  <div class="container">
+    <div class="testimonials-header fade-in">
+      <p class="section-label">Testimonios</p>
+      <h2 class="section-title">Voces del bosque</h2>
+      <div class="divider divider-center"></div>
+    </div>
+    <div class="testimonials-grid">
+
+      <div class="glass testimonial-card fade-in fade-in-delay-1">
+        <span class="quote-mark">"</span>
+        <div class="stars">
+          <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
+        </div>
+        <p class="testimonial-text">Nebula Lodge transformó nuestra visión del ecoturismo de lujo. El tour nocturno fue sobrecogedor — nunca había estado tan cerca de la naturaleza salvaje mientras me sentía completamente segura y en manos de expertos. El desayuno con vista al bosque nuboso fue un momento que recordaré toda la vida.</p>
+        <div class="testimonial-author">
+          <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&q=80&auto=format&fit=crop&crop=face" alt="Sarah Mitchell" class="author-avatar" loading="lazy" />
+          <div>
+            <p class="author-name">Sarah Mitchell</p>
+            <p class="author-origin">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width:12px;height:12px;display:inline;margin-right:4px;vertical-align:middle;">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+              </svg>
+              Nueva York, Estados Unidos
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="glass testimonial-card fade-in fade-in-delay-2">
+        <span class="quote-mark">"</span>
+        <div class="stars">
+          <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
+        </div>
+        <p class="testimonial-text">Llevábamos años buscando un lodge que conjugara autenticidad, sostenibilidad real y un servicio verdaderamente personalizado. Nebula supera todo lo que imaginamos. El chef preparó un menú especial con ingredientes del jardín del lodge, y el guía de aves conocía cada espécimen por nombre. Una joya absoluta de Costa Rica.</p>
+        <div class="testimonial-author">
+          <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=80&auto=format&fit=crop&crop=face" alt="Thomas Bergmann" class="author-avatar" loading="lazy" />
+          <div>
+            <p class="author-name">Thomas Bergmann</p>
+            <p class="author-origin">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width:12px;height:12px;display:inline;margin-right:4px;vertical-align:middle;">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+              </svg>
+              Múnich, Alemania
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER / RESERVA ══════════════════════════════════ -->
+<footer id="reserva">
+  <div class="container">
+    <div class="footer-top">
+
+      <!-- Brand -->
+      <div class="footer-brand fade-in">
+        <a href="#" class="nav-logo">Nebula<span>.</span></a>
+        <p>Un refugio exclusivo en el corazón del bosque nuboso de Monteverde, Costa Rica. Solo 12 huéspedes. Experiencias irrepetibles. La naturaleza en su forma más extraordinaria.</p>
+        <a href="#reserva" class="btn btn-gold">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+          </svg>
+          Reserva ahora
+        </a>
+      </div>
+
+      <!-- Contact -->
+      <div class="footer-col fade-in fade-in-delay-1">
+        <h4>Contacto &amp; Reservas</h4>
+        <ul class="footer-contact-list">
+          <li>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+            </svg>
+            <a href="tel:+50626458890">+506 2645-8890</a>
+          </li>
+          <li>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+            </svg>
+            <a href="https://wa.me/50688452210" target="_blank" rel="noopener">WhatsApp: +506 8845-2210</a>
+          </li>
+          <li>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+            <a href="mailto:reservas@nebulalodge.cr">reservas@nebulalodge.cr</a>
+          </li>
+          <li>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+            Monteverde, Puntarenas, Costa Rica
+          </li>
+          <li>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            Lunes a Domingo · 7:00am – 8:00pm
+          </li>
+        </ul>
+      </div>
+
+      <!-- CTA Box -->
+      <div class="fade-in fade-in-delay-2">
+        <div class="footer-cta-box">
+          <h3>¿Listo para vivir el bosque?</h3>
+          <p>Contáctanos por WhatsApp para consultar disponibilidad, tarifas y experiencias personalizadas. Respondemos en menos de 2 horas.</p>
+          <a href="https://wa.me/50688452210?text=Hola,%20me%20interesa%20reservar%20en%20Nebula%20Lodge" target="_blank" rel="noopener" class="btn btn-gold" style="width:100%;justify-content:center;">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+            </svg>
+            Escribir por WhatsApp
+          </a>
+          <div style="height:12px;"></div>
+          <a href="mailto:reservas@nebulalodge.cr" class="btn btn-outline" style="width:100%;justify-content:center;">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+            Enviar un correo
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 Nebula Lodge &amp; Experiences. Todos los derechos reservados.</p>
+      <ul class="footer-links">
+        <li><a href="#">Política de privacidad</a></li>
+        <li><a href="#">Términos y condiciones</a></li>
+        <li><a href="#">Cancelaciones</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<!-- ══ SCRIPTS ═══════════════════════════════════════════ -->
+<script>
+  // ── Navbar scroll effect ──────────────────────────────
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 60);
+  }, { passive: true });
+
+  // ── Hero loaded animation ─────────────────────────────
+  document.getElementById('hero').classList.add('loaded');
+
+  // ── Mobile menu ───────────────────────────────────────
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const mobileClose = document.getElementById('mobileClose');
+  const mobileLinks = document.querySelectorAll('.mobile-link');
+
+  hamburger.addEventListener('click', () => mobileMenu.classList.add('open'));
+  mobileClose.addEventListener('click', () => mobileMenu.classList.remove('open'));
+  mobileLinks.forEach(l => l.addEventListener('click', () => mobileMenu.classList.remove('open')));
+
+  // ── Scroll fade-in ────────────────────────────────────
+  const fadeEls = document.querySelectorAll('.fade-in');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+  fadeEls.forEach(el => observer.observe(el));
+
+  // Hero elements visible immediately
+  document.querySelectorAll('.hero-content .fade-in').forEach((el, i) => {
+    setTimeout(() => el.classList.add('visible'), 200 + i * 150);
+  });
+</script>
+
+</body>
+</html>
